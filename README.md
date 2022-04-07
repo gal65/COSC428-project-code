@@ -50,7 +50,8 @@ If CUDA, PyTorch or Torchvision produce errors, note that they must be built tog
 
 5. Check the success of your install with the following command in the miniconda prompt:
 ```
-python; import torch; torch.__version__; torch.cuda.is_available()
+python
+import torch; torch.__version__; torch.cuda.is_available()
 ```
 
 Ensure the version of Torch is what you expect, and that ```torch.cuda.is_available()``` returns True. If it does not, repeat Step 4 and ensure Torch is built with CUDA support.
@@ -60,7 +61,11 @@ Or from a local clone: ```git clone https://github.com/facebookresearch/detectro
 
 Any errors may be due to GCC/G++ or VisualStudio versions. 
 
-7. Check successful install of Detectron2 with ```python; import detectron2```
+7. Check successful install of Detectron2 with 
+```
+python
+import detectron2
+```
 
 ## Adding my code to the Detectron2 library
 
