@@ -1,0 +1,22 @@
+usage: demo.py [-h] [--config-file FILE] [--webcam]
+               [--video-input VIDEO_INPUT] [--input INPUT [INPUT ...]]
+               [--output OUTPUT] [--confidence-threshold CONFIDENCE_THRESHOLD]
+               [--opts ...]
+
+Detectron2 demo for builtin configs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config-file FILE    path to config file
+  --webcam              Take inputs from webcam.
+  --video-input VIDEO_INPUT
+                        Path to video file.
+  --input INPUT [INPUT ...]
+                        A list of space separated input images; or a single
+                        glob pattern such as 'directory/*.jpg'
+  --output OUTPUT       A file or directory to save output visualizations. If
+                        not given, will show output in an OpenCV window.
+  --confidence-threshold CONFIDENCE_THRESHOLD
+                        Minimum score for instance predictions to be shown
+  --opts ...            Modify config options using the command-line 'KEY
+                        VALUE' pairs
