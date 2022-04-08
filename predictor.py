@@ -1,4 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+# Adapted by Gordon Lay
+
 import atexit
 import bisect
 import multiprocessing as mp
@@ -32,20 +34,20 @@ class VisualizationDemo(object):
             parallel (bool): whether to run the model in different processes from visualization.
                 Useful since the visualization logic can be slow.
         """
-        # Unfortunately Python does not have Switch/Case
-        self.mode = 1 # Mode 0: Shot recognition
-                      # Mode 1: Match suggested shot (training/coaching mode)
-                      # Mode 2: Accuracy test mode
+
+        self.mode = 1   # Mode 0: Shot recognition
+                        # Mode 1: Match suggested shot (training/coaching mode)
+                        # Mode 2: Accuracy test mode
                       
         self.is_setup = 0
         
         # if user is left handed (self.is_left_handed = 1), flip the image
         self.is_left_handed = 0
         
-        self.VERT_THRESHOLD = 15 # Number of pixels for one point to be considered 'above' another in frame
-        self.LIN_THRESHOLD = 10 # Max difference between two gradients to be considered linear
-        self.SEPARATED_THRESHOLD = 50 # Min distance (in pixels) for two points to be considered separated
-        self.PROX_THRESHOLD = 40 # Max separation for two points to be considered in proximity to each other
+        self.VERT_THRESHOLD = 15            # Number of pixels for one point to be considered 'above' another in frame
+        self.LIN_THRESHOLD = 10             # Max difference between two gradients to be considered linear
+        self.SEPARATED_THRESHOLD = 50       # Min distance (in pixels) for two points to be considered separated
+        self.PROX_THRESHOLD = 40            # Max separation for two points to be considered in proximity to each other
         
         if (self.mode == 2):
             self.outputList = [] 
