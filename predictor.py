@@ -33,8 +33,8 @@ class VisualizationDemo(object):
                 Useful since the visualization logic can be slow.
         """
         # Unfortunately Python does not have Switch/Case
-        self.mode = 2 # Mode 0: Shot recognition
-                      # Mode 1: Match suggested shot (training mode)
+        self.mode = 1 # Mode 0: Shot recognition
+                      # Mode 1: Match suggested shot (training/coaching mode)
                       # Mode 2: Accuracy test mode
                       
         self.is_setup = 0
@@ -192,7 +192,8 @@ class VisualizationDemo(object):
             string = default 
             self.identify = string
         
-        # if in training/coach mode       
+        # if in training/coach mode 
+        # trainer picks a shot to suggest at random      
         if (self.mode == 1):   
             shot_list = ['Overhead','Backhand','Net Shot', 'Defensive Shot']    
             if (self.message == 'Idle'):
@@ -208,13 +209,11 @@ class VisualizationDemo(object):
                 self.counter = 0
                 self.previous_ID = self.identify
                 
-            # Overlay the current shot type
+            # Overlay the current suggested shot type
             if (self.message == 'Overhead'):
                 cv2.putText(frame, str('Play an ' + self.message + '!'), (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
-                #cv2.putText(frame, str(self.identify), (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
             else:
                 cv2.putText(frame, str('Play a ' + self.message + '!'), (10, 30), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
-                #cv2.putText(frame, str(self.identify), (10, 70), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
                 
         # if in shot recognition mode
         elif (self.mode == 0):
