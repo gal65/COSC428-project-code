@@ -74,9 +74,7 @@ import detectron2
 
 <em> This is where the fun begins </em>
 
-## What all the files do! 
-
-### Running the demo
+## Running the demo
 
 Run the following code in the miniconda prompt (ensuring the correct environment is activated):
 
