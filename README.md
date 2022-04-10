@@ -56,8 +56,15 @@ import torch; torch.__version__; torch.cuda.is_available()
 
 Ensure the version of Torch is what you expect, and that ```torch.cuda.is_available()``` returns True. If it does not, repeat Step 4 and ensure Torch is built with CUDA support.
 
-6. Either install Detectron2 with: ```python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'``` 
-Or from a local clone: ```git clone https://github.com/facebookresearch/detectron2.git; python -m pip install -e detectron2```
+6. Either install Detectron2 with: 
+```
+python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
+``` 
+Or from a local clone: 
+```
+git clone https://github.com/facebookresearch/detectron2.git
+python -m pip install -e detectron2
+```
 
 Any errors may be due to GCC/G++ or VisualStudio versions. 
 
