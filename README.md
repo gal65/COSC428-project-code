@@ -89,7 +89,7 @@ Run the following code in the miniconda prompt (ensuring the correct environment
 python3 demo.py --video-input test_video.mp4 --confidence-threshold 0.95 --config-file ../configs/COCO-Keypoints/keypoint_rcnn_R_50_FPN_3x.yaml --opts MODEL.WEIGHTS detectron2://COCO-Keypoints/keypoint_rcnn_R_50_FPN_3x/137849621/model_final_a6e10b.pkl
 ```
 
-This will process the provided sample video and display the recognition in a pop-up window. See bashScriptforDemo.txt for commands to run from webcam, and save the output videos.
+This will process the provided sample video and display the recognition in a pop-up window. See bashScriptforDemo.txt for commands such as how to run from webcam, or save output videos.
 
 ### Other notes
 The inclusion of openh264-1.8.0-win64.dll in this directory is a work-around to a video encoding error: if an error is thrown where a different version of openh264 is specified, download it from https://github.com/cisco/openh264/releases/tag/vX.X.X where 'vX.X.X is replaced by your required version. 
