@@ -210,7 +210,8 @@ class VisualizationDemo(object):
             self.identify = string
 
         # if in training/coach mode 
-        # trainer picks a shot to suggest at random      
+        # trainer picks a shot to suggest at random  
+            
         if (self.mode == 1):   
             shot_list = ['Overhead','Backhand','Net Shot', 'Defensive Shot']    
             if (self.message == 'Idle'):
@@ -241,9 +242,6 @@ class VisualizationDemo(object):
             cv2.putText(frame, str(self.identify), (50, 50), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 255, 255), 2)
             # Append recognition output to list
             self.output_list.append(self.identify)
-        
-        elif (self.mode == 3):
-            self.keypoint_data.append(frame_keypoints)
         
         # Check CUDA usage
         # print(torch.cuda.get_device_name(0))
