@@ -35,9 +35,10 @@ class VisualizationDemo(object):
                 Useful since the visualization logic can be slow.
         """
 
-        self.mode = 1   # Mode 0: Shot recognition
+        self.mode = 3   # Mode 0: Shot recognition
                         # Mode 1: Match suggested shot (training/coaching mode)
                         # Mode 2: Accuracy test mode
+                        # Mode 3: Image keypoint data mode
                       
         self.is_setup = 0
         
@@ -50,7 +51,10 @@ class VisualizationDemo(object):
         self.PROX_THRESHOLD = 40            # Max separation for two points to be considered in proximity to each other
         
         if (self.mode == 2):
-            self.outputList = [] 
+            self.output_list = [] 
+
+        if (self.mode == 3):
+            self.keypoint_data = []
         
         self.metadata = MetadataCatalog.get(
             cfg.DATASETS.TEST[0] if len(cfg.DATASETS.TEST) else "__unused"
@@ -79,6 +83,8 @@ class VisualizationDemo(object):
             predictions (dict): the output of the model.
             vis_output (VisImage): the visualized image output.
         """
+        if (self.is_left_handed == 1):
+            image = cv2.flip(image, 1)
         vis_output = None
         predictions = self.predictor(image)
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
@@ -88,6 +94,15 @@ class VisualizationDemo(object):
         if "instances" in predictions:
             instances = predictions["instances"].to(self.cpu_device)
             vis_output = visualizer.draw_instance_predictions(predictions=instances)
+
+            # Store keypoint data
+            if (self.mode == 3):
+                self.keypoint_data = (instances.pred_keypoints.cpu().numpy()[-1])[:,:-1]
+                print(self.keypoint_data)
+                df = pd.DataFrame(list(zip(*[self.keypoint_data]))).add_prefix('Keypoint Data')
+                df.to_csv('image_keypoint_data.csv', index=False)    
+                print("Keypoint data saved to 'image_keypoint_data.csv'")
+
         return predictions, vis_output  
 
     def _frame_from_video(self, video):
@@ -101,9 +116,10 @@ class VisualizationDemo(object):
                 yield frame
             elif (self.mode == 2):
                 # On last frame: print recognition data list and save to .csv for accuracy measurements
-                print(self.outputList)
-                df = pd.DataFrame(list(zip(*[self.outputList]))).add_prefix('Recognition ')
-                df.to_csv('recognition_data.csv', index=False)                
+                print(self.output_list)
+                df = pd.DataFrame(list(zip(*[self.output_list]))).add_prefix('Recognition')
+                df.to_csv('recognition_data.csv', index=False)         
+                print("Recognition data saved to 'recognition_data.csv'")       
                 break
             else:
                 break
@@ -126,7 +142,7 @@ class VisualizationDemo(object):
             default = 'Idle' # No shot being played
             string = default
             self.identify = string # Recognised shot type to be overlayed   
-        
+
         # Initialise keypoints
         if len(predictions) > 0:
             keypoint_names = self.metadata.get("keypoint_names")
@@ -162,8 +178,7 @@ class VisualizationDemo(object):
             left_ankle = keypoints[left_ankle_index]
             right_ankle = keypoints[right_ankle_index]   
         
-            # run only once, initially. Should be in __init__() along with key
-            # point initialisation
+            # run only once, initially
             if self.is_setup == 0: 
                 self.SEPARATED_THRESHOLD = left_shoulder[0] - right_shoulder[0]
                 self.is_setup = 1
@@ -193,7 +208,7 @@ class VisualizationDemo(object):
         else:
             string = default 
             self.identify = string
-        
+
         # if in training/coach mode 
         # trainer picks a shot to suggest at random      
         if (self.mode == 1):   
@@ -225,7 +240,10 @@ class VisualizationDemo(object):
         elif (self.mode == 2):
             cv2.putText(frame, str(self.identify), (50, 50), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 255, 255), 2)
             # Append recognition output to list
-            self.outputList.append(self.identify)
+            self.output_list.append(self.identify)
+        
+        elif (self.mode == 3):
+            self.keypoint_data.append(frame_keypoints)
         
         # Check CUDA usage
         # print(torch.cuda.get_device_name(0))
